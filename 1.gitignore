@@ -1,0 +1,18 @@
+# Python backend
+backend/venv/
+backend/__pycache__/
+backend/*.pkl
+
+# Node frontend
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+
+# Env files
+.env
+backend/.env
+frontend/.env
+
+# OS / misc
+.DS_Store
+Thumbs.db

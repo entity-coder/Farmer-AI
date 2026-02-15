@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - ai-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      PYTHON_AI_URL: http://python-ai:5001
+    depends_on:
+      - python-ai
+    networks:
+      - ai-network
+
+  python-ai:
+    build:
+      context: ./python-ai
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      PORT: 5001
+      FLASK_ENV: production
+    networks:
+      - ai-network
+
+networks:
+  ai-network:
+    driver: bridge
